@@ -56,57 +56,57 @@
                 </div>
                 <div class="panel-content">
                     <div class="sites-list" id="sites-selector-list">
-                        <!-- Node 1: Mexico (Default) -->
+                        <!-- Node 1: Mexico (Altar) -->
                         <button class="site-btn active" data-site-index="0" id="site-btn-mexico">
                             <span class="site-number">01</span>
                             <div class="site-info">
-                                <span class="site-name">MÉXICO</span>
-                                <span class="site-desc">Cozumel Spaceport</span>
+                                <span class="site-name">ALTAR</span>
+                                <span class="site-desc">México Spaceport</span>
                             </div>
                             <span class="site-status status-nominal">ON</span>
                         </button>
-                        <!-- Node 2: Brasil -->
+                        <!-- Node 2: Brasil (Alcântara) -->
                         <button class="site-btn" data-site-index="1" id="site-btn-brasil">
                             <span class="site-number">02</span>
                             <div class="site-info">
-                                <span class="site-name">BRASIL</span>
-                                <span class="site-desc">Alcântara Launch Center</span>
+                                <span class="site-name">ALCÂNTARA</span>
+                                <span class="site-desc">Brasil Launch Center</span>
                             </div>
                             <span class="site-status status-nominal">ON</span>
                         </button>
-                        <!-- Node 3: Argentina -->
+                        <!-- Node 3: Argentina (Punta Indio) -->
                         <button class="site-btn" data-site-index="2" id="site-btn-argentina">
                             <span class="site-number">03</span>
                             <div class="site-info">
-                                <span class="site-name">ARGENTINA</span>
-                                <span class="site-desc">Puerto Belgrano Base</span>
+                                <span class="site-name">PUNTA INDIO</span>
+                                <span class="site-desc">Argentina Tactical Base</span>
                             </div>
                             <span class="site-status status-standby">STB</span>
                         </button>
-                        <!-- Node 4: Chile -->
+                        <!-- Node 4: Chile (Atacama) -->
                         <button class="site-btn" data-site-index="3" id="site-btn-chile">
                             <span class="site-number">04</span>
                             <div class="site-info">
-                                <span class="site-name">CHILE</span>
-                                <span class="site-desc">Atacama Range</span>
+                                <span class="site-name">ATACAMA</span>
+                                <span class="site-desc">Chile Telemetry Range</span>
                             </div>
                             <span class="site-status status-nominal">ON</span>
                         </button>
-                        <!-- Node 5: Colombia -->
+                        <!-- Node 5: Colombia (Guajira) -->
                         <button class="site-btn" data-site-index="4" id="site-btn-colombia">
                             <span class="site-number">05</span>
                             <div class="site-info">
-                                <span class="site-name">COLOMBIA</span>
-                                <span class="site-desc">Guajira Launch Complex</span>
+                                <span class="site-name">GUAJIRA</span>
+                                <span class="site-desc">Colombia Launch Complex</span>
                             </div>
                             <span class="site-status status-alert">ALT</span>
                         </button>
-                        <!-- Node 6: Peru -->
+                        <!-- Node 6: Peru (La Joya) -->
                         <button class="site-btn" data-site-index="5" id="site-btn-peru">
                             <span class="site-number">06</span>
                             <div class="site-info">
-                                <span class="site-name">PERÚ</span>
-                                <span class="site-desc">Pampa Chachani Base</span>
+                                <span class="site-name">LA JOYA</span>
+                                <span class="site-desc">Perú Aerospace Base</span>
                             </div>
                             <span class="site-status status-standby">STB</span>
                         </button>
@@ -117,11 +117,15 @@
                         <div class="subpanel-title">// NODE DATALOGS</div>
                         <div class="datalog-row">
                             <span class="dl-label">COORDS:</span>
-                            <span class="dl-value text-cyan" id="node-coords">20.4230° N, 86.9223° W</span>
+                            <span class="dl-value text-cyan" id="node-coords">31.6961° N, 111.7314° W</span>
+                        </div>
+                        <div class="datalog-row">
+                            <span class="dl-label">OPTIMAL ORBIT:</span>
+                            <span class="dl-value text-cyan" id="node-orbit">POLAR / SSO</span>
                         </div>
                         <div class="datalog-row">
                             <span class="dl-label">ALTITUDE:</span>
-                            <span class="dl-value" id="node-altitude">14m ASL</span>
+                            <span class="dl-value" id="node-altitude">780m ASL</span>
                         </div>
                         <div class="datalog-row">
                             <span class="dl-label">WEATHER:</span>
@@ -135,12 +139,14 @@
                             <span class="dl-label">TEMP/BARO:</span>
                             <span class="dl-value" id="node-baro">29.1°C / 1013 hPa</span>
                         </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-label">PROPELLANT RESERVES:</div>
+                        
+                        <!-- Dynamic Launch Vector Status -->
+                        <div class="vector-status-box mt-15">
+                            <div class="progress-label font-mono text-orange" id="node-vector-name">COHETE CÓNDOR-1: listo en plataforma</div>
                             <div class="progress-track">
-                                <div class="progress-fill" id="node-fuel-bar" style="width: 92%"></div>
+                                <div class="progress-fill" id="node-fuel-bar" style="width: 98%"></div>
                             </div>
-                            <div class="progress-val font-mono" id="node-fuel-text">92%</div>
+                            <div class="progress-val font-mono" id="node-fuel-text">98%</div>
                         </div>
                     </div>
                 </div>
@@ -149,10 +155,13 @@
             <!-- MAIN CENTER: ORBITAL VISOR / RADAR -->
             <section class="fui-panel main-center" id="panel-radar-visor">
                 <div class="panel-header">
-                    <span class="panel-title">// ORBITAL SWEEP VISOR</span>
-                    <span class="panel-subtitle" id="visor-subtitle">SYS LOCK: MÉXICO SPACEPORT COZUMEL</span>
+                    <span class="panel-title">// ORBITAL SWEEP VISOR & GEOMAP</span>
+                    <span class="panel-subtitle" id="visor-subtitle">SYS LOCK: ALTAR SPACEPORT MÉXICO</span>
                 </div>
                 <div class="panel-content radar-view-container">
+                    <!-- Laser scanning line overlay -->
+                    <div class="radar-scanline-laser"></div>
+
                     <!-- Tech overlay grid markers -->
                     <div class="radar-tech-overlay">
                         <div class="tech-corner top-left"></div>
@@ -161,8 +170,8 @@
                         <div class="tech-corner bottom-right"></div>
                         
                         <div class="coordinate-readout top-left font-mono">
-                            LAT: <span id="radar-lat">20.4230° N</span><br>
-                            LNG: <span id="radar-lng">86.9223° W</span>
+                            LAT: <span id="radar-lat">31.6961° N</span><br>
+                            LNG: <span id="radar-lng">111.7314° W</span>
                         </div>
                         <div class="coordinate-readout top-right font-mono text-right">
                             AZIMUTH: <span id="radar-azimuth">142.82°</span><br>
@@ -170,7 +179,7 @@
                         </div>
                         <div class="coordinate-readout bottom-left font-mono">
                             TARGET LOCK: <span class="text-green blink">ACTIVE</span><br>
-                            GRID SECTOR: MX-CZ-09
+                            GRID SECTOR: MX-AL-01
                         </div>
                         <div class="coordinate-readout bottom-right font-mono text-right">
                             SWEEP SPEED: 0.5 Hz<br>
@@ -178,9 +187,17 @@
                         </div>
                     </div>
 
-                    <!-- Orbital SVG Radar -->
+                    <!-- Orbital SVG Radar & Stylized Latin America Map -->
                     <div class="radar-svg-wrapper">
                         <svg class="radar-canvas" viewBox="0 0 500 500">
+                            <!-- DEFINITIONS FOR GRADIENTS -->
+                            <defs>
+                                <radialGradient id="sweep-gradient" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="var(--accent-cyan)" stop-opacity="0.2"/>
+                                    <stop offset="100%" stop-color="var(--accent-cyan)" stop-opacity="0"/>
+                                </radialGradient>
+                            </defs>
+
                             <!-- Circular Grid Lines -->
                             <circle cx="250" cy="250" r="230" class="radar-grid-circle grid-outer"></circle>
                             <circle cx="250" cy="250" r="180" class="radar-grid-circle"></circle>
@@ -196,45 +213,66 @@
                             <line x1="87" y1="87" x2="413" y2="413" class="radar-grid-line diagonal"></line>
                             <line x1="87" y1="413" x2="413" y2="87" class="radar-grid-line diagonal"></line>
 
-                            <!-- Angular Tick marks (decorative) -->
-                            <g class="radar-ticks">
-                                <line x1="250" y1="10" x2="250" y2="20" class="tick"></line>
-                                <line x1="250" y1="480" x2="250" y2="490" class="tick"></line>
-                                <line x1="10" y1="250" x2="20" y2="250" class="tick"></line>
-                                <line x1="480" y1="250" x2="490" y2="250" class="tick"></line>
+                            <!-- LATIN AMERICA STYLIZED MAP (Lines & Dots layout) -->
+                            <g class="latam-map-group">
+                                <!-- Main Outline -->
+                                <path d="M 110,90 L 130,95 L 140,110 L 160,115 L 170,130 L 195,145 L 210,165 L 235,175 L 260,185 L 285,175 L 310,180 L 330,195 L 350,210 L 365,225 L 370,250 L 360,280 L 330,320 L 305,370 L 290,410 L 280,455 L 275,470 L 265,450 L 260,405 L 245,360 L 230,320 L 220,290 L 210,260 L 218,225 L 215,200 L 190,175 L 170,160 L 150,140 L 125,125 L 115,100 Z" class="map-outline"></path>
                             </g>
 
                             <!-- Rotating Sweep Line -->
                             <g class="radar-sweep-group">
                                 <line x1="250" y1="250" x2="250" y2="20" class="radar-sweep-line"></line>
-                                <!-- Fade gradient sweep sector -->
                                 <path d="M 250 250 L 250 20 A 230 230 0 0 1 365 50 Z" class="radar-sweep-cone"></path>
                             </g>
 
-                            <!-- Target Reticles -->
-                            <g class="radar-targets" id="radar-target-group">
-                                <!-- Center Lock Reticle -->
-                                <g class="radar-target active-target" id="radar-active-target" transform="translate(250, 250)">
-                                    <circle cx="0" cy="0" r="10" class="target-circle-outer"></circle>
-                                    <line x1="-15" y1="0" x2="15" y2="0" class="target-cross"></line>
-                                    <line x1="0" y1="-15" x2="0" y2="15" class="target-cross"></line>
-                                    <rect x="-8" y="-8" width="16" height="16" class="target-box"></rect>
+                            <!-- 6 INTERACTIVE MAP SPACEPORT MARKERS -->
+                            <g class="map-spaceports-markers">
+                                <!-- Marker 1: Altar (México) -->
+                                <g class="spaceport-marker active-marker" data-site-index="0" id="map-marker-0" transform="translate(120, 105)">
+                                    <circle cx="0" cy="0" r="4" class="marker-core"></circle>
+                                    <circle cx="0" cy="0" r="10" class="marker-pulse"></circle>
+                                    <text x="8" y="3" class="marker-label">ALTAR</text>
                                 </g>
+                                <!-- Marker 2: Alcântara (Brasil) -->
+                                <g class="spaceport-marker" data-site-index="1" id="map-marker-1" transform="translate(350, 215)">
+                                    <circle cx="0" cy="0" r="4" class="marker-core"></circle>
+                                    <circle cx="0" cy="0" r="10" class="marker-pulse"></circle>
+                                    <text x="8" y="3" class="marker-label">ALCÂNTARA</text>
+                                </g>
+                                <!-- Marker 3: Punta Indio (Argentina) -->
+                                <g class="spaceport-marker" data-site-index="2" id="map-marker-2" transform="translate(285, 395)">
+                                    <circle cx="0" cy="0" r="4" class="marker-core"></circle>
+                                    <circle cx="0" cy="0" r="10" class="marker-pulse"></circle>
+                                    <text x="8" y="3" class="marker-label">PUNTA INDIO</text>
+                                </g>
+                                <!-- Marker 4: Atacama (Chile) -->
+                                <g class="spaceport-marker" data-site-index="3" id="map-marker-3" transform="translate(232, 340)">
+                                    <circle cx="0" cy="0" r="4" class="marker-core"></circle>
+                                    <circle cx="0" cy="0" r="10" class="marker-pulse"></circle>
+                                    <text x="8" y="3" class="marker-label">ATACAMA</text>
+                                </g>
+                                <!-- Marker 5: Guajira (Colombia) -->
+                                <g class="spaceport-marker" data-site-index="4" id="map-marker-4" transform="translate(245, 180)">
+                                    <circle cx="0" cy="0" r="4" class="marker-core"></circle>
+                                    <circle cx="0" cy="0" r="10" class="marker-pulse"></circle>
+                                    <text x="8" y="3" class="marker-label">GUAJIRA</text>
+                                </g>
+                                <!-- Marker 6: La Joya (Perú) -->
+                                <g class="spaceport-marker" data-site-index="5" id="map-marker-5" transform="translate(228, 290)">
+                                    <circle cx="0" cy="0" r="4" class="marker-core"></circle>
+                                    <circle cx="0" cy="0" r="10" class="marker-pulse"></circle>
+                                    <text x="8" y="3" class="marker-label">LA JOYA</text>
+                                </g>
+                            </g>
 
-                                <!-- Secondary orbits/satellites (decorative) -->
-                                <g class="radar-satellite" transform="translate(140, 180)">
-                                    <circle cx="0" cy="0" r="3" class="satellite-dot"></circle>
-                                    <circle cx="0" cy="0" r="8" class="satellite-ring"></circle>
-                                    <text x="8" y="4" class="sat-label">SAT-CELA-A</text>
-                                </g>
-                                <g class="radar-satellite" transform="translate(370, 310)">
-                                    <circle cx="0" cy="0" r="3" class="satellite-dot"></circle>
-                                    <circle cx="0" cy="0" r="8" class="satellite-ring"></circle>
-                                    <text x="8" y="4" class="sat-label">METEO-G4</text>
-                                </g>
-                                <g class="radar-satellite" transform="translate(320, 110)">
-                                    <circle cx="0" cy="0" r="2" class="satellite-dot dim"></circle>
-                                    <text x="8" y="4" class="sat-label dim">DEBRIS-219</text>
+                            <!-- Target Reticles (HUD LOCKING GLYPH) -->
+                            <g class="radar-targets" id="radar-target-group">
+                                <!-- Center Lock Reticle (Follows selected site) -->
+                                <g class="radar-target active-target" id="radar-active-target" transform="translate(120, 105)">
+                                    <circle cx="0" cy="0" r="14" class="target-circle-outer"></circle>
+                                    <line x1="-20" y1="0" x2="20" y2="0" class="target-cross"></line>
+                                    <line x1="0" y1="-20" x2="0" y2="20" class="target-cross"></line>
+                                    <rect x="-10" y="-10" width="20" height="20" class="target-box"></rect>
                                 </g>
                             </g>
                         </svg>
@@ -261,6 +299,7 @@
                     </div>
                 </div>
             </section>
+
 
             <!-- SIDEBAR RIGHT: CHATBOT -->
             <section class="fui-panel sidebar-right" id="panel-mission-chatbot">

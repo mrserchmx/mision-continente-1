@@ -3,88 +3,100 @@
 // 1. DATA MODEL FOR LAUNCH NODES
 const SITES_DATA = [
     {
-        name: "MÉXICO",
-        desc: "Cozumel Spaceport",
-        coords: "20.4230° N, 86.9223° W",
-        altitude: "14m ASL",
+        name: "ALTAR",
+        desc: "México Spaceport",
+        coords: "31.6961° N, 111.7314° W",
+        orbit: "POLAR / SSO",
+        altitude: "780m ASL",
         weather: "NOMINAL // CLEAR",
         signal: "98.4%",
         baro: "29.1°C / 1013 hPa",
-        fuel: 92,
-        radarPos: { x: 250, y: 250 }, // Center
-        azimuth: "142.82°",
-        elevation: "48.19°",
-        sector: "MX-CZ-09"
+        fuel: 98,
+        vector: "COHETE CÓNDOR-1: listo en plataforma",
+        radarPos: { x: 120, y: 105 }, 
+        azimuth: "324.51°",
+        elevation: "18.30°",
+        sector: "MX-AL-01"
     },
     {
-        name: "BRASIL",
-        desc: "Alcântara Launch Center",
+        name: "ALCÂNTARA",
+        desc: "Brasil Launch Center",
         coords: "2.3837° S, 44.3969° W",
+        orbit: "EQUATORIAL / LEO",
         altitude: "45m ASL",
         weather: "NOMINAL // STABLE",
         signal: "95.1%",
         baro: "31.4°C / 1009 hPa",
-        fuel: 85,
-        radarPos: { x: 330, y: 290 },
-        azimuth: "118.44°",
-        elevation: "59.21°",
+        fuel: 92,
+        vector: "VEHÍCULO SABIÁ-2: en preparación",
+        radarPos: { x: 350, y: 215 },
+        azimuth: "102.14°",
+        elevation: "44.92°",
         sector: "BR-AL-12"
     },
     {
-        name: "ARGENTINA",
-        desc: "Puerto Belgrano Base",
-        coords: "38.8872° S, 62.1012° W",
+        name: "PUNTA INDIO",
+        desc: "Argentina Tactical Base",
+        coords: "35.3448° S, 57.2681° W",
+        orbit: "HELIOSYNCHRONOUS / SSO",
         altitude: "3m ASL",
         weather: "STANDBY // GUSTS",
         signal: "91.8%",
         baro: "12.8°C / 1022 hPa",
-        fuel: 64,
-        radarPos: { x: 190, y: 390 },
-        azimuth: "204.15°",
-        elevation: "22.50°",
-        sector: "AR-PB-03"
+        fuel: 89,
+        vector: "VECTOR TRONADOR-3: presurización activa",
+        radarPos: { x: 285, y: 395 },
+        azimuth: "164.88°",
+        elevation: "28.12°",
+        sector: "AR-PI-03"
     },
     {
-        name: "CHILE",
-        desc: "Atacama Range",
+        name: "ATACAMA",
+        desc: "Chile Telemetry Range",
         coords: "24.2690° S, 69.8500° W",
+        orbit: "POLAR / MEO",
         altitude: "2,630m ASL",
-        weather: "NOMINAL // OPTICAL GOOD",
+        weather: "NOMINAL // OPTICAL EXCELLENT",
         signal: "99.1%",
         baro: "18.5°C / 740 hPa",
         fuel: 78,
-        radarPos: { x: 130, y: 310 },
-        azimuth: "191.07°",
-        elevation: "37.40°",
+        vector: "COHETE LAUTARO-5: chequeo estático",
+        radarPos: { x: 232, y: 340 },
+        azimuth: "188.45°",
+        elevation: "38.70°",
         sector: "CL-AT-07"
     },
     {
-        name: "COLOMBIA",
-        desc: "Guajira Launch Complex",
+        name: "GUAJIRA",
+        desc: "Colombia Launch Complex",
         coords: "12.2153° N, 71.7925° W",
+        orbit: "LOW-INCLINATION / LEO",
         altitude: "5m ASL",
         weather: "WARNING // WIND VELOCITY EXCEEDED",
         signal: "74.2%",
         baro: "33.1°C / 1008 hPa",
         fuel: 40,
-        radarPos: { x: 280, y: 140 },
-        azimuth: "135.60°",
-        elevation: "55.80°",
+        vector: "SISTEMA CHIBCHA-1: en espera (clima)",
+        radarPos: { x: 245, y: 180 },
+        azimuth: "12.50°",
+        elevation: "68.42°",
         sector: "CO-GJ-05"
     },
     {
-        name: "PERÚ",
-        desc: "Pampa Chachani Base",
-        coords: "16.1950° S, 71.5900° W",
+        name: "LA JOYA",
+        desc: "Perú Aerospace Base",
+        coords: "16.5910° S, 71.8510° W",
+        orbit: "POLAR / LEO",
         altitude: "3,850m ASL",
         weather: "STANDBY // TEMPERATURE LOW",
         signal: "88.6%",
         baro: "4.2°C / 635 hPa",
         fuel: 55,
-        radarPos: { x: 160, y: 220 },
-        azimuth: "172.93°",
-        elevation: "42.11°",
-        sector: "PE-PC-06"
+        vector: "VECTOR CHASQUI-3: carga de combustible",
+        radarPos: { x: 228, y: 290 },
+        azimuth: "208.11°",
+        elevation: "52.36°",
+        sector: "PE-LJ-06"
     }
 ];
 
@@ -94,16 +106,19 @@ let isCountdownRunning = false;
 // 2. DOM ELEMENTS
 const clockElement = document.getElementById("utc-clock");
 const siteButtons = document.querySelectorAll(".site-btn");
+const mapMarkers = document.querySelectorAll(".spaceport-marker");
 const chatbotLogs = document.getElementById("chatbot-logs");
 const chatInputForm = document.getElementById("chat-input-form");
 const chatInput = document.getElementById("chat-input");
 
 // Telemetry DOM nodes
 const nodeCoords = document.getElementById("node-coords");
+const nodeOrbit = document.getElementById("node-orbit");
 const nodeAltitude = document.getElementById("node-altitude");
 const nodeWeather = document.getElementById("node-weather");
 const nodeSignal = document.getElementById("node-signal");
 const nodeBaro = document.getElementById("node-baro");
+const nodeVectorName = document.getElementById("node-vector-name");
 const nodeFuelBar = document.getElementById("node-fuel-bar");
 const nodeFuelText = document.getElementById("node-fuel-text");
 
@@ -146,7 +161,7 @@ function selectLaunchSite(index) {
     activeSiteIndex = index;
     const site = SITES_DATA[index];
     
-    // Toggle active buttons style
+    // Toggle active list buttons styling
     siteButtons.forEach((btn, idx) => {
         if (idx === index) {
             btn.classList.add("active");
@@ -155,14 +170,37 @@ function selectLaunchSite(index) {
         }
     });
 
-    // Update Telemetry log labels
+    // Toggle active SVG map markers styling
+    mapMarkers.forEach((marker, idx) => {
+        if (idx === index) {
+            marker.classList.add("active-marker");
+        } else {
+            marker.classList.remove("active-marker");
+        }
+    });
+
+    // Trigger visual scan overlay on the telemetry log block
+    const telemetrySub = document.getElementById("site-telemetry-details");
+    telemetrySub.classList.remove("scanning");
+    void telemetrySub.offsetWidth; // Force reflow to restart CSS animation
+    telemetrySub.classList.add("scanning");
+
+    // Update Telemetry Log Panels
     nodeCoords.innerText = site.coords;
+    nodeOrbit.innerText = site.orbit;
     nodeAltitude.innerText = site.altitude;
     nodeWeather.innerText = site.weather;
     nodeSignal.innerText = site.signal;
     nodeBaro.innerText = site.baro;
-    nodeFuelBar.style.width = `${site.fuel}%`;
-    nodeFuelText.innerText = `${site.fuel}%`;
+    nodeVectorName.innerText = site.vector.toUpperCase();
+
+    // Reset and animate progress bar
+    nodeFuelBar.style.width = '0%';
+    nodeFuelText.innerText = '0%';
+    setTimeout(() => {
+        nodeFuelBar.style.width = `${site.fuel}%`;
+        nodeFuelText.innerText = `${site.fuel}%`;
+    }, 60);
 
     // Apply color class to weather node based on telemetry status
     nodeWeather.className = "dl-value";
@@ -174,7 +212,7 @@ function selectLaunchSite(index) {
         nodeWeather.classList.add("text-orange");
     }
 
-    // Update Visor Radar Texts
+    // Update Visor Radar HUD
     visorSubtitle.innerText = `SYS LOCK: ${site.name} SPACEPORT ${site.desc.split(" ")[0].toUpperCase()}`;
     const [latStr, lngStr] = site.coords.split(", ");
     radarLat.innerText = latStr;
@@ -195,20 +233,28 @@ function selectLaunchSite(index) {
         statDrift.className = "s-val text-green";
     }
 
-    // Update SVG Target Location (Translate group coordinate)
+    // Translate active HUD target reticle on the map
     radarTargetReticle.setAttribute("transform", `translate(${site.radarPos.x}, ${site.radarPos.y})`);
 
-    // Update Ticker
-    tickerFeed.innerText = `LINKING REGIONAL NODE-${String(index+1).padStart(2, '0')} (${site.name})... DATASTREAM SYNCHRONIZED... COORDINATES LOCKED AT ${site.coords}... MONITORING ATMOSPHERIC DRIFT...`;
+    // Update bottom Ticker message
+    tickerFeed.innerText = `LINKING REGIONAL NODE-${String(index+1).padStart(2, '0')} (${site.name})... DATASTREAM SYNCHRONIZED... COORDINATES LOCKED AT ${site.coords}... MONITORING ATMOSPHERIC DRIFT... OPTIMAL ORBIT: ${site.orbit}...`;
 
     // Notify Chatbot of site lock
     appendSystemMessage(`TARGET NODE ALIGNED: ${site.name} SPACEPORT.`);
 }
 
-// Bind clicks to buttons
+// Bind click event listeners to sidebar selector list
 siteButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
         const index = parseInt(btn.getAttribute("data-site-index"));
+        selectLaunchSite(index);
+    });
+});
+
+// Bind click event listeners to SVG map markers
+mapMarkers.forEach((marker) => {
+    marker.addEventListener("click", () => {
+        const index = parseInt(marker.getAttribute("data-site-index"));
         selectLaunchSite(index);
     });
 });
@@ -262,7 +308,7 @@ function typeAIMessage(text) {
         } else {
             clearInterval(typingInterval);
         }
-    }, 12);
+    }, 10);
 }
 
 // Countdown sequence simulation
@@ -351,10 +397,11 @@ function handleChatbotCommand(command) {
             case "telemetria":
                 typeAIMessage(`TELEMETRÍA ACTUAL [NODO ${site.name}]:\n` +
                               `• Coordenadas: ${site.coords}\n` +
+                              `• Órbita Óptima: ${site.orbit}\n` +
                               `• Altura: ${site.altitude}\n` +
-                              `• Presión Atmosférica: ${site.baro}\n` +
+                              `• Estatus Gantry: ${site.vector}\n` +
                               `• Fuerza de Señal: ${site.signal}\n` +
-                              `• Nivel Combustible: ${site.fuel}%`);
+                              `• Combustible: ${site.fuel}%`);
                 break;
             case "weather":
             case "clima":
