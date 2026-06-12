@@ -1,4 +1,4 @@
-// --- MISSION CONTROL INTERACTION SCRIPT ---
+// --- M.I.A.A. TACTICAL CORE INTERACTION SCRIPT ---
 
 // 1. DATA MODEL FOR LAUNCH NODES
 const SITES_DATA = [
@@ -110,6 +110,7 @@ const mapMarkers = document.querySelectorAll(".spaceport-marker");
 const chatbotLogs = document.getElementById("chatbot-logs");
 const chatInputForm = document.getElementById("chat-input-form");
 const chatInput = document.getElementById("chat-input");
+const miaaLoader = document.getElementById("miaa-loader");
 
 // Telemetry DOM nodes
 const nodeCoords = document.getElementById("node-coords");
@@ -292,7 +293,7 @@ function typeAIMessage(text) {
     msg.className = "chat-message ai-msg";
     msg.innerHTML = `
         <span class="msg-timestamp">[${timeStr}]</span>
-        <span class="msg-sender">KRONOS AI:</span>
+        <span class="msg-sender">M.I.A.A. AI:</span>
         <span class="msg-text"></span>
     `;
     chatbotLogs.appendChild(msg);
@@ -360,65 +361,119 @@ function executeIgnition() {
     }, 1500);
 }
 
-// Chatbot commands router
-function handleChatbotCommand(command) {
-    const cleanCmd = command.trim().toLowerCase();
+// Local Fallback router in case Cloudflare Worker is offline/not deployed
+function executeLocalFallbackCommand(cleanCmd, site) {
+    switch(cleanCmd) {
+        case "help":
+        case "ayuda":
+            typeAIMessage("Comandos locales M.I.A.A. (FALLBACK MODE):\n" +
+                          "• [status] : Diagnóstico general de la red aeroespacial.\n" +
+                          "• [launch sequence] : Inicia simulación de lanzamiento.\n" +
+                          "• [telemetry] : Lectura profunda del nodo activo actual.\n" +
+                          "• [weather] : Reporte climático detallado de la estación.\n" +
+                          "• [clear] : Limpia la bitácora de mensajes.");
+            break;
+        case "status":
+        case "estado":
+            typeAIMessage(`DIAGNÓSTICO NÚCLEO COGNITIVO M.I.A.A.:\n` +
+                          `- WORKER BACKEND: OFFLINE (FALLBACK ACTIVE)\n` +
+                          `- CORE INTEGRITY: 99.8% [NOMINAL]\n` +
+                          `- NODO ACTIVO: ${site.name} (${site.desc})\n` +
+                          `- RED ENLACES: 6/6 NODOS SINCRONIZADOS\n` +
+                          `- COMMS ENCRYPTION: MIL-2048-AES (OPTIMAL)`);
+            break;
+        case "launch sequence":
+        case "launch":
+        case "lanzamiento":
+            triggerLaunchSequence();
+            break;
+        case "telemetry":
+        case "telemetria":
+            typeAIMessage(`TELEMETRÍA ACTUAL [NODO ${site.name}]:\n` +
+                          `• Coordenadas: ${site.coords}\n` +
+                          `• Órbita Óptima: ${site.orbit}\n` +
+                          `• Altura: ${site.altitude}\n` +
+                          `• Estatus Gantry: ${site.vector}\n` +
+                          `• Fuerza de Señal: ${site.signal}\n` +
+                          `• Combustible: ${site.fuel}%`);
+            break;
+        case "weather":
+        case "clima":
+            typeAIMessage(`REPORTE METEOROLÓGICO [NODO ${site.name}]:\n` +
+                          `• Estado: ${site.weather}\n` +
+                          `• Condición: Temperatura de ${site.baro.split(" / ")[0]} con presión de ${site.baro.split(" / ")[1]}.`);
+            break;
+        case "clear":
+        case "limpiar":
+            chatbotLogs.innerHTML = "";
+            appendSystemMessage("CONSOLE CLEARED BY OPERATOR UPLINK.");
+            break;
+        default:
+            typeAIMessage(`[M.I.A.A. CORE]: Conexión con Workers AI fuera de línea. Procesando consulta de respaldo local. Consulta: "${cleanCmd}". Estado general del nodo ${site.name}: NOMINAL.`);
+            break;
+    }
+}
+
+// Chatbot commands router with fetch uplink to Cloudflare Worker
+async function handleChatbotCommand(command) {
+    const cleanCmd = command.trim();
     const site = SITES_DATA[activeSiteIndex];
 
     if (cleanCmd === "") return;
 
     appendUserMessage(command);
 
-    setTimeout(() => {
-        switch(cleanCmd) {
-            case "help":
-            case "ayuda":
-                typeAIMessage("Comandos disponibles en el Núcleo CELA KRONOS:\n" +
-                              "• [status] : Diagnóstico general de la red táctica.\n" +
-                              "• [launch sequence] : Inicia cuenta regresiva de simulación de lanzamiento.\n" +
-                              "• [telemetry] : Lectura profunda del nodo activo actual.\n" +
-                              "• [weather] : Reporte climático detallado de la estación.\n" +
-                              "• [clear] : Limpia la bitácora de mensajes.");
-                break;
-            case "status":
-            case "estado":
-                typeAIMessage(`DIAGNÓSTICO RED CELA:\n` +
-                              `- CORE INTEGRITY: 99.8%\n` +
-                              `- NODO ACTIVO: ${site.name} (${site.desc})\n` +
-                              `- RED ENLACES: 6/6 NODOS SINCRONIZADOS\n` +
-                              `- COMMS ENCRYPTION: MIL-2048-AES (OPTIMAL)`);
-                break;
-            case "launch sequence":
-            case "launch":
-            case "lanzamiento":
-                triggerLaunchSequence();
-                break;
-            case "telemetry":
-            case "telemetria":
-                typeAIMessage(`TELEMETRÍA ACTUAL [NODO ${site.name}]:\n` +
-                              `• Coordenadas: ${site.coords}\n` +
-                              `• Órbita Óptima: ${site.orbit}\n` +
-                              `• Altura: ${site.altitude}\n` +
-                              `• Estatus Gantry: ${site.vector}\n` +
-                              `• Fuerza de Señal: ${site.signal}\n` +
-                              `• Combustible: ${site.fuel}%`);
-                break;
-            case "weather":
-            case "clima":
-                typeAIMessage(`REPORTE METEOROLÓGICO [NODO ${site.name}]:\n` +
-                              `• Estado: ${site.weather}\n` +
-                              `• Condición: Temperatura actual de ${site.baro.split(" / ")[0]} con presión de ${site.baro.split(" / ")[1]}.`);
-                break;
-            case "clear":
-            case "limpiar":
-                chatbotLogs.innerHTML = "";
-                appendSystemMessage("CONSOLE CLEARED BY OPERATOR UPLINK.");
-                break;
-            default:
-                typeAIMessage(`Comando '${command}' no reconocido. Escriba 'help' para ver los protocolos disponibles de KRONOS.`);
-                break;
+    // Show dynamic soundwave equalizer thinking indicator
+    miaaLoader.style.display = "flex";
+    chatbotLogs.scrollTop = chatbotLogs.scrollHeight;
+
+    // Disable inputs during network request
+    chatInput.disabled = true;
+    const sendBtn = document.getElementById("chat-send-trigger");
+    if (sendBtn) sendBtn.disabled = true;
+
+    try {
+        // Asynchronous fetch call to Cloudflare Worker
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: cleanCmd,
+                site: site.name
+            })
+        });
+
+        // Hide thinking loader
+        miaaLoader.style.display = "none";
+        chatInput.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
+        chatInput.focus();
+
+        if (!response.ok) {
+            throw new Error(`Uplink Error: ${response.status}`);
         }
-    }, 400);
+
+        const data = await response.json();
+        if (data.response) {
+            typeAIMessage(data.response);
+        } else {
+            typeAIMessage("Error: M.I.A.A. recibió un paquete de datos vacío.");
+        }
+    } catch (error) {
+        console.warn("M.I.A.A. Worker offline or unreachable. Engaging local fallback routine.", error);
+        
+        // Simulating artificial thinking time for fallback (1.2 seconds)
+        setTimeout(() => {
+            miaaLoader.style.display = "none";
+            chatInput.disabled = false;
+            if (sendBtn) sendBtn.disabled = false;
+            chatInput.focus();
+
+            executeLocalFallbackCommand(cleanCmd.toLowerCase(), site);
+        }, 1200);
+    }
 }
 
 // Bind chat submission
@@ -448,7 +503,7 @@ setInterval(() => {
     footerMem.innerText = `${(parseFloat(baseMem) + parseFloat(driftMem)).toFixed(1)}%`;
 }, 3000);
 
-// Initialize Mexico as active
+// Initialize Altar as active
 window.addEventListener("DOMContentLoaded", () => {
     selectLaunchSite(0);
 });

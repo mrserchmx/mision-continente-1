@@ -301,11 +301,11 @@
             </section>
 
 
-            <!-- SIDEBAR RIGHT: CHATBOT -->
+            <!-- SIDEBAR RIGHT: CHATBOT (M.I.A.A.) -->
             <section class="fui-panel sidebar-right" id="panel-mission-chatbot">
                 <div class="panel-header">
-                    <span class="panel-title">// MISSION CORE AI</span>
-                    <span class="panel-subtitle">INTERFAZ DE COMUNICACIÓN DE BANDA ANCHA</span>
+                    <span class="panel-title">// M.I.A.A. COGNITIVE LINK</span>
+                    <span class="panel-subtitle">INTEGRACIÓN DE INTELIGENCIA ARTIFICIAL AEROESPACIAL</span>
                 </div>
                 <div class="panel-content chatbot-container">
                     <!-- Chat Messages Output Logs -->
@@ -317,9 +317,21 @@
                         </div>
                         <div class="chat-message ai-msg">
                             <span class="msg-timestamp">[16:11:03]</span>
-                            <span class="msg-sender">KRONOS AI:</span>
-                            <span class="msg-text">Saludos, Operador. Soy la I.A. de Control de la Misión KRONOS. Estoy lista para proveer telemetría de lanzamiento, reportes climáticos, simulaciones de trayectoria orbital y control de secuencia para la Misión CONTINENTE-1. Escribe <span class="text-cyan">help</span> o <span class="text-cyan">ayuda</span> para ver mis comandos disponibles.</span>
+                            <span class="msg-sender">M.I.A.A. AI:</span>
+                            <span class="msg-text">Enlace neuronal establecido. Soy M.I.A.A., la Inteligencia Artificial de la Misión CONTINENTE-1. Estoy conectada al backend de Cloudflare Workers AI para procesar telemetría orbital y flujos de datos cuánticos en tiempo real. Ingresa un comando o escribe <span class="text-cyan">help</span> para iniciar análisis de plataforma.</span>
                         </div>
+                    </div>
+
+                    <!-- Visual loading wave: hidden by default -->
+                    <div class="miaa-thinking-indicator" id="miaa-loader" style="display: none;">
+                        <div class="sound-wave">
+                            <span class="bar bar1"></span>
+                            <span class="bar bar2"></span>
+                            <span class="bar bar3"></span>
+                            <span class="bar bar4"></span>
+                            <span class="bar bar5"></span>
+                        </div>
+                        <span class="loader-text font-mono text-orange">M.I.A.A. PROCESANDO FLUJO CUÁNTICO...</span>
                     </div>
 
                     <!-- Suggested quick replies for terminal -->
@@ -332,8 +344,8 @@
 
                     <!-- Chat Input form -->
                     <form class="chat-input-area" id="chat-input-form" autocomplete="off">
-                        <div class="input-prefix font-mono">KRONOS-OS &gt;</div>
-                        <input type="text" id="chat-input" placeholder="INGRESE COMANDO..." required>
+                        <div class="input-prefix font-mono">MIAA-OS &gt;</div>
+                        <input type="text" id="chat-input" placeholder="CONSULTAR NÚCLEO M.I.A.A..." required>
                         <button type="submit" class="chat-send-btn" id="chat-send-trigger">
                             <svg class="send-icon" viewBox="0 0 24 24">
                                 <path d="M2 21l21-9L2 3v7l15 2-15 2z" fill="currentColor"></path>
