@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión CONTINENTE-1 // CELA Tactical Control</title>
+    <meta name="description" content="Centro de control táctico militar e aeroespacial para la Misión CONTINENTE-1 de CELA.">
+    <!-- Google Fonts: Share Tech Mono, JetBrains Mono, and Rajdhani for high-tech headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="fui-scanlines">
+    <!-- Main CRT Overlay for high-tech grid overlay -->
+    <div class="crt-overlay"></div>
+    <div class="fui-grid-bg"></div>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="fui-header" id="main-header">
+            <div class="header-left">
+                <div class="logo-box">
+                    <span class="logo-txt-sub">CELA DEPT OF AEROSPACE</span>
+                    <span class="logo-txt-main">CELA // CONTINENTE-1</span>
+                </div>
+                <div class="header-status-box">
+                    <span class="status-indicator-dot"></span>
+                    <span class="status-text font-mono">SYS STATUS: <span class="status-active font-bold">ALL SYSTEMS GO</span></span>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="mission-title">TACTICAL COMMAND CENTER</div>
+                <div class="header-subtitle">DECRYPTED LEVEL-5 UPLINK ACTIVE</div>
+            </div>
+
+            <div class="header-right">
+                <div class="header-data-point">
+                    <span class="data-label">COMMS:</span>
+                    <span class="data-val text-cyan">SECURE</span>
+                </div>
+                <div class="clock-box font-mono" id="utc-clock">
+                    UTC 00:00:00:000
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT GRID -->
+        <main class="fui-main-grid">
+            <!-- SIDEBAR LEFT: LAUNCH SITES -->
+            <section class="fui-panel sidebar-left" id="panel-launch-sites">
+                <div class="panel-header">
+                    <span class="panel-title">// REGIONAL LAUNCH NODES</span>
+                    <span class="panel-subtitle">SELECCIONAR ESTACIÓN</span>
+                </div>
+                <div class="panel-content">
+                    <div class="sites-list" id="sites-selector-list">
+                        <!-- Node 1: Mexico (Default) -->
+                        <button class="site-btn active" data-site-index="0" id="site-btn-mexico">
+                            <span class="site-number">01</span>
+                            <div class="site-info">
+                                <span class="site-name">MÉXICO</span>
+                                <span class="site-desc">Cozumel Spaceport</span>
+                            </div>
+                            <span class="site-status status-nominal">ON</span>
+                        </button>
+                        <!-- Node 2: Brasil -->
+                        <button class="site-btn" data-site-index="1" id="site-btn-brasil">
+                            <span class="site-number">02</span>
+                            <div class="site-info">
+                                <span class="site-name">BRASIL</span>
+                                <span class="site-desc">Alcântara Launch Center</span>
+                            </div>
+                            <span class="site-status status-nominal">ON</span>
+                        </button>
+                        <!-- Node 3: Argentina -->
+                        <button class="site-btn" data-site-index="2" id="site-btn-argentina">
+                            <span class="site-number">03</span>
+                            <div class="site-info">
+                                <span class="site-name">ARGENTINA</span>
+                                <span class="site-desc">Puerto Belgrano Base</span>
+                            </div>
+                            <span class="site-status status-standby">STB</span>
+                        </button>
+                        <!-- Node 4: Chile -->
+                        <button class="site-btn" data-site-index="3" id="site-btn-chile">
+                            <span class="site-number">04</span>
+                            <div class="site-info">
+                                <span class="site-name">CHILE</span>
+                                <span class="site-desc">Atacama Range</span>
+                            </div>
+                            <span class="site-status status-nominal">ON</span>
+                        </button>
+                        <!-- Node 5: Colombia -->
+                        <button class="site-btn" data-site-index="4" id="site-btn-colombia">
+                            <span class="site-number">05</span>
+                            <div class="site-info">
+                                <span class="site-name">COLOMBIA</span>
+                                <span class="site-desc">Guajira Launch Complex</span>
+                            </div>
+                            <span class="site-status status-alert">ALT</span>
+                        </button>
+                        <!-- Node 6: Peru -->
+                        <button class="site-btn" data-site-index="5" id="site-btn-peru">
+                            <span class="site-number">06</span>
+                            <div class="site-info">
+                                <span class="site-name">PERÚ</span>
+                                <span class="site-desc">Pampa Chachani Base</span>
+                            </div>
+                            <span class="site-status status-standby">STB</span>
+                        </button>
+                    </div>
+
+                    <!-- Selected Site Mini Telemetry Panel -->
+                    <div class="telemetry-subpanel mt-15" id="site-telemetry-details">
+                        <div class="subpanel-title">// NODE DATALOGS</div>
+                        <div class="datalog-row">
+                            <span class="dl-label">COORDS:</span>
+                            <span class="dl-value text-cyan" id="node-coords">20.4230° N, 86.9223° W</span>
+                        </div>
+                        <div class="datalog-row">
+                            <span class="dl-label">ALTITUDE:</span>
+                            <span class="dl-value" id="node-altitude">14m ASL</span>
+                        </div>
+                        <div class="datalog-row">
+                            <span class="dl-label">WEATHER:</span>
+                            <span class="dl-value text-green" id="node-weather">NOMINAL // CLEAR</span>
+                        </div>
+                        <div class="datalog-row">
+                            <span class="dl-label">UPLINK STRENGTH:</span>
+                            <span class="dl-value" id="node-signal">98.4%</span>
+                        </div>
+                        <div class="datalog-row">
+                            <span class="dl-label">TEMP/BARO:</span>
+                            <span class="dl-value" id="node-baro">29.1°C / 1013 hPa</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">PROPELLANT RESERVES:</div>
+                            <div class="progress-track">
+                                <div class="progress-fill" id="node-fuel-bar" style="width: 92%"></div>
+                            </div>
+                            <div class="progress-val font-mono" id="node-fuel-text">92%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MAIN CENTER: ORBITAL VISOR / RADAR -->
+            <section class="fui-panel main-center" id="panel-radar-visor">
+                <div class="panel-header">
+                    <span class="panel-title">// ORBITAL SWEEP VISOR</span>
+                    <span class="panel-subtitle" id="visor-subtitle">SYS LOCK: MÉXICO SPACEPORT COZUMEL</span>
+                </div>
+                <div class="panel-content radar-view-container">
+                    <!-- Tech overlay grid markers -->
+                    <div class="radar-tech-overlay">
+                        <div class="tech-corner top-left"></div>
+                        <div class="tech-corner top-right"></div>
+                        <div class="tech-corner bottom-left"></div>
+                        <div class="tech-corner bottom-right"></div>
+                        
+                        <div class="coordinate-readout top-left font-mono">
+                            LAT: <span id="radar-lat">20.4230° N</span><br>
+                            LNG: <span id="radar-lng">86.9223° W</span>
+                        </div>
+                        <div class="coordinate-readout top-right font-mono text-right">
+                            AZIMUTH: <span id="radar-azimuth">142.82°</span><br>
+                            ELEVATION: <span id="radar-elev">48.19°</span>
+                        </div>
+                        <div class="coordinate-readout bottom-left font-mono">
+                            TARGET LOCK: <span class="text-green blink">ACTIVE</span><br>
+                            GRID SECTOR: MX-CZ-09
+                        </div>
+                        <div class="coordinate-readout bottom-right font-mono text-right">
+                            SWEEP SPEED: 0.5 Hz<br>
+                            ECHO: PASSIVE
+                        </div>
+                    </div>
+
+                    <!-- Orbital SVG Radar -->
+                    <div class="radar-svg-wrapper">
+                        <svg class="radar-canvas" viewBox="0 0 500 500">
+                            <!-- Circular Grid Lines -->
+                            <circle cx="250" cy="250" r="230" class="radar-grid-circle grid-outer"></circle>
+                            <circle cx="250" cy="250" r="180" class="radar-grid-circle"></circle>
+                            <circle cx="250" cy="250" r="130" class="radar-grid-circle"></circle>
+                            <circle cx="250" cy="250" r="80" class="radar-grid-circle"></circle>
+                            <circle cx="250" cy="250" r="30" class="radar-grid-circle"></circle>
+
+                            <!-- Axis Lines -->
+                            <line x1="20" y1="250" x2="480" y2="250" class="radar-grid-line"></line>
+                            <line x1="250" y1="20" x2="250" y2="480" class="radar-grid-line"></line>
+                            
+                            <!-- Diagonal Guidelines -->
+                            <line x1="87" y1="87" x2="413" y2="413" class="radar-grid-line diagonal"></line>
+                            <line x1="87" y1="413" x2="413" y2="87" class="radar-grid-line diagonal"></line>
+
+                            <!-- Angular Tick marks (decorative) -->
+                            <g class="radar-ticks">
+                                <line x1="250" y1="10" x2="250" y2="20" class="tick"></line>
+                                <line x1="250" y1="480" x2="250" y2="490" class="tick"></line>
+                                <line x1="10" y1="250" x2="20" y2="250" class="tick"></line>
+                                <line x1="480" y1="250" x2="490" y2="250" class="tick"></line>
+                            </g>
+
+                            <!-- Rotating Sweep Line -->
+                            <g class="radar-sweep-group">
+                                <line x1="250" y1="250" x2="250" y2="20" class="radar-sweep-line"></line>
+                                <!-- Fade gradient sweep sector -->
+                                <path d="M 250 250 L 250 20 A 230 230 0 0 1 365 50 Z" class="radar-sweep-cone"></path>
+                            </g>
+
+                            <!-- Target Reticles -->
+                            <g class="radar-targets" id="radar-target-group">
+                                <!-- Center Lock Reticle -->
+                                <g class="radar-target active-target" id="radar-active-target" transform="translate(250, 250)">
+                                    <circle cx="0" cy="0" r="10" class="target-circle-outer"></circle>
+                                    <line x1="-15" y1="0" x2="15" y2="0" class="target-cross"></line>
+                                    <line x1="0" y1="-15" x2="0" y2="15" class="target-cross"></line>
+                                    <rect x="-8" y="-8" width="16" height="16" class="target-box"></rect>
+                                </g>
+
+                                <!-- Secondary orbits/satellites (decorative) -->
+                                <g class="radar-satellite" transform="translate(140, 180)">
+                                    <circle cx="0" cy="0" r="3" class="satellite-dot"></circle>
+                                    <circle cx="0" cy="0" r="8" class="satellite-ring"></circle>
+                                    <text x="8" y="4" class="sat-label">SAT-CELA-A</text>
+                                </g>
+                                <g class="radar-satellite" transform="translate(370, 310)">
+                                    <circle cx="0" cy="0" r="3" class="satellite-dot"></circle>
+                                    <circle cx="0" cy="0" r="8" class="satellite-ring"></circle>
+                                    <text x="8" y="4" class="sat-label">METEO-G4</text>
+                                </g>
+                                <g class="radar-satellite" transform="translate(320, 110)">
+                                    <circle cx="0" cy="0" r="2" class="satellite-dot dim"></circle>
+                                    <text x="8" y="4" class="sat-label dim">DEBRIS-219</text>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Visor Bottom Dashboard Grid -->
+                    <div class="visor-bottom-stats font-mono">
+                        <div class="stat-module">
+                            <span class="s-hdr">VECTOR LOCK</span>
+                            <span class="s-val text-cyan" id="stat-vector">LOCK OK</span>
+                        </div>
+                        <div class="stat-module">
+                            <span class="s-hdr">SIGNAL DEVIATION</span>
+                            <span class="s-val text-green" id="stat-drift">0.002°</span>
+                        </div>
+                        <div class="stat-module">
+                            <span class="s-hdr">COMPRESSION</span>
+                            <span class="s-val">H265/RAW</span>
+                        </div>
+                        <div class="stat-module">
+                            <span class="s-hdr">ENCRYPTION</span>
+                            <span class="s-val text-orange">MIL-2048-AES</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SIDEBAR RIGHT: CHATBOT -->
+            <section class="fui-panel sidebar-right" id="panel-mission-chatbot">
+                <div class="panel-header">
+                    <span class="panel-title">// MISSION CORE AI</span>
+                    <span class="panel-subtitle">INTERFAZ DE COMUNICACIÓN DE BANDA ANCHA</span>
+                </div>
+                <div class="panel-content chatbot-container">
+                    <!-- Chat Messages Output Logs -->
+                    <div class="chat-logs font-mono" id="chatbot-logs">
+                        <div class="chat-message system-msg">
+                            <span class="msg-timestamp">[16:11:02]</span>
+                            <span class="msg-sender">SYSTEM:</span>
+                            <span class="msg-text">UPLINK ESTABLISHED. CORRIDOR ENCRYPTED.</span>
+                        </div>
+                        <div class="chat-message ai-msg">
+                            <span class="msg-timestamp">[16:11:03]</span>
+                            <span class="msg-sender">KRONOS AI:</span>
+                            <span class="msg-text">Saludos, Operador. Soy la I.A. de Control de la Misión KRONOS. Estoy lista para proveer telemetría de lanzamiento, reportes climáticos, simulaciones de trayectoria orbital y control de secuencia para la Misión CONTINENTE-1. Escribe <span class="text-cyan">help</span> o <span class="text-cyan">ayuda</span> para ver mis comandos disponibles.</span>
+                        </div>
+                    </div>
+
+                    <!-- Suggested quick replies for terminal -->
+                    <div class="chat-suggestions">
+                        <button class="sug-btn" id="sug-status">status</button>
+                        <button class="sug-btn" id="sug-launch">launch sequence</button>
+                        <button class="sug-btn" id="sug-telemetry">telemetry</button>
+                        <button class="sug-btn" id="sug-weather">weather report</button>
+                    </div>
+
+                    <!-- Chat Input form -->
+                    <form class="chat-input-area" id="chat-input-form" autocomplete="off">
+                        <div class="input-prefix font-mono">KRONOS-OS &gt;</div>
+                        <input type="text" id="chat-input" placeholder="INGRESE COMANDO..." required>
+                        <button type="submit" class="chat-send-btn" id="chat-send-trigger">
+                            <svg class="send-icon" viewBox="0 0 24 24">
+                                <path d="M2 21l21-9L2 3v7l15 2-15 2z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="fui-footer font-mono">
+            <div class="footer-segment flex-grow">
+                <span class="text-orange blink">// TELEMETRY FEED: </span>
+                <span class="ticker-text" id="ticker-feed">CONNECTING TO GROUND STATION NETWORK... LINKING NODE-01 COZUMEL MEXICO... OK. ALL SYSTEMS NOMINAL...</span>
+            </div>
+            <div class="footer-segment text-right">
+                <span class="data-label">CORE TEMP:</span>
+                <span class="data-val text-green">34.2°C</span>
+            </div>
+            <div class="footer-segment text-right">
+                <span class="data-label">UPLINK LATENCY:</span>
+                <span class="data-val text-cyan" id="footer-latency">12 ms</span>
+            </div>
+            <div class="footer-segment text-right">
+                <span class="data-label">MEM LOAD:</span>
+                <span class="data-val" id="footer-mem">42.8%</span>
+            </div>
+            <div class="footer-segment text-right">
+                <span class="data-label">PORT:</span>
+                <span class="data-val">SEC-438</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- App Script -->
+    <script src="app.js"></script>
+</body>
+</html>
